@@ -1,0 +1,31 @@
+export enum YESNO {
+   YES="YES",
+   NO="NO"
+}
+
+export enum PORTALENUM{
+   GERDD="GERDD",
+   PROVIDER="PROVIDER",
+   SUPPORT="SUPPORT"
+}
+
+export enum STATUS{
+   PENDING="PENDING",
+   APPROVED="APPROVED",
+   REJECTED="REJECTED"
+}
+
+export enum USERLEVEL{
+   GLOBAL="GLOBAL",
+   COUNTRY="COUNTRY",
+   LOCAL="LOCAL",
+   ADMIN="ADMIN",
+   AUTHORIZER="AUTHORIZER",
+   SUPPORT="SUPPORT"
+}
+
+export enum TRANSTYPE {
+   BANK="BANK",
+   MOMO="MOMO",
+   CREDIT_CARD="CREDIT_CARD"
+}
