@@ -29,7 +29,7 @@ config();
   // providers: [IsUniqueConstraint, AppService],
 })
 export class AppModule {
-  constructor(){
-    console.log("host", `${process.env.MYSQL_HOST}`)
-  }
+  // constructor(){
+  //   console.log("host", `${process.env.MYSQL_HOST}`)
+  // }
 }
