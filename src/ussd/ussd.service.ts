@@ -46,9 +46,7 @@ export class UssdService {
       response = `END Your Balance Is ${balance}`
     } else if(text === `2*${merchantCode}`){
       response = `CON Enter Amount to Pay`;
-      const amount = text;
-      //Api Goes Here
-      response = `END Your Amount Entered Is ${amount}`
+  
     } else if(text === `3*${merchantCode}`){
       response = `CON Enter Amount to pay`;
       const amount = text.split("*")[2];
@@ -62,6 +60,11 @@ export class UssdService {
       const damount = text.split("*")[2];
       //API Goes Here
       response = `END Donation Amount Is ${damount}`
+    }else if(text === `2*${merchantCode}*1`){
+      // response = `CON Enter Amount to Pay`;
+      // const amount = text.split("*")[2];
+      //Api Goes Here
+      response = `END Your Amount Entered Is ${text}`
     }
 
     return response
