@@ -20,6 +20,8 @@ export class UssdService {
     const merchantCode = "M10001";
     const recipientCode = "R10001";
 
+    let amount_pay;
+
     if(text === ""){
       //this is the first request. Note how we start the response with CON
       response = `CON Welcome to PeoplesPay ?
@@ -46,6 +48,8 @@ export class UssdService {
       response = `END Your Balance Is ${balance}`
     } else if(text === `2*${merchantCode}`){
       response = `CON Enter Amount to Pay`;
+
+      amount_pay = text.split("*")[2];
   
     } else if(text === `3*${merchantCode}`){
       response = `CON Enter Amount to pay`;
@@ -60,11 +64,11 @@ export class UssdService {
       const damount = text.split("*")[2];
       //API Goes Here
       response = `END Donation Amount Is ${damount}`
-    }else if(`2*${merchantCode}*1`){
+    }else if(amount_pay){
       // response = `CON Enter Amount to Pay`;
       // const amount = text.split("*")[2];
       //Api Goes Here
-      response = `END Your Amount Entered Is ${text}`
+      response = `END Your Amount Entered Is ${amount_pay}`
     }
 
     return response
