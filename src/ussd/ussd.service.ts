@@ -46,7 +46,7 @@ export class UssdService {
       response = `END Your Balance Is ${balance}`
     } else if(text === `2*${merchantCode}`){
       response = `CON Enter Amount to Pay`;
-      const amount = text.split("*")[2];
+      const amount = text;
       //Api Goes Here
       response = `END Your Amount Entered Is ${amount}`
     } else if(text === `3*${merchantCode}`){
