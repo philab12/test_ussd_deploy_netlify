@@ -49,7 +49,7 @@ export class UssdService {
     } else if(text === `2*${merchantCode}`){
       response = `CON Enter Amount to Pay`;
 
-      amount_pay = text.split("*")[2];
+      //amount_pay = text.split("*")[2];
   
     } else if(text === `3*${merchantCode}`){
       response = `CON Enter Amount to pay`;
