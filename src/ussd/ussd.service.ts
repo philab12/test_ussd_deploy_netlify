@@ -13,35 +13,55 @@ export class UssdService {
   
     } = createUssdDto;
 
+    //var textValue = text.split('*').length;
+
     let response= "";
+
+    const merchantCode = "M10001";
+    const recipientCode = "R10001";
 
     if(text === ""){
       //this is the first request. Note how we start the response with CON
-      response = `CON What would you like to chcek ?
-      1. My Account
-      2. My phone Number`;
+      response = `Welcome to PeoplesPay ?
+      1. Check Balance
+      2. Make Payment
+      3. Accept Payment
+      4. Make a Donation
+      `;
     } else if(text === "1"){
       //Business logic for first level response 
-      response = `CON Choose account information you want to view
-      1. Account Number
-      2. Account Balance`;
+      response = `CON Enter The Merchant Code`;
     } else if(text === "2"){
       //Get the mobile number from firestore Database
   
       //Terminal Request
-      response = `END Your phone number is ${phoneNumber}`
-    } else if(text === "1*1"){
-      const accountNumber = 'AC100101';
+      response = `CON Enter The Merchant Code`
+    } else if(text === "3"){
+      response = `CON Enter Your Merchant Code`;
   
-      //Terminal request start with END
-      response = `END Your account number os ${accountNumber}`;
-  
-    } else if(text === "1*2"){
-      //Get data from the database
-      const balance = 'KES 10,000';
-  
-      //Terminal request start with END
-      response = `END Your balance is ${balance}`;
+    } else if(text === "4"){
+      response = `CON Enter Recipient Code`;
+    } else if(text === `1*${merchantCode}`){
+      const balance = "ghc2000";
+      response = `END Your Balance Is ${balance}`
+    } else if(text === `2*${merchantCode}`){
+      response = `CON Enter Amount to Pay`;
+      const amount = text.split("*")[2];
+      //Api Goes Here
+      response = `END Your Amount Entered Is ${amount}`
+    } else if(text === `3*${merchantCode}`){
+      response = `CON Enter Amount to pay`;
+      const amount = text.split("*")[2];
+      response = `CON Enter Payee Wallet Number`;
+      const walletNumber = text.split("*")[3];
+      //API Goes Here
+      response = `END Payee Wallet Number Is ${walletNumber}`
+
+    }else if(text === `4*${recipientCode}`){
+      response = `CON Enter Donation Amount`
+      const damount = text.split("*")[2];
+      //API Goes Here
+      response = `END Donation Amount Is ${damount}`
     }
 
     return response
