@@ -64,11 +64,11 @@ export class UssdService {
       const damount = text.split("*")[2];
       //API Goes Here
       response = `END Donation Amount Is ${damount}`
-    }else if(amount_pay){
+    }else if(text){
       // response = `CON Enter Amount to Pay`;
       // const amount = text.split("*")[2];
       //Api Goes Here
-      response = `END Your Amount Entered Is ${amount_pay}`
+      response = `END Your Amount Entered Is ${text}`
     }
 
     return response
