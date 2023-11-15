@@ -22,7 +22,7 @@ export class UssdService {
 
     if(text === ""){
       //this is the first request. Note how we start the response with CON
-      response = `Welcome to PeoplesPay ?
+      response = `CON Welcome to PeoplesPay ?
       1. Check Balance
       2. Make Payment
       3. Accept Payment
