@@ -68,7 +68,8 @@ export class UssdService {
       // response = `CON Enter Amount to Pay`;
       // const amount = text.split("*")[2];
       //Api Goes Here
-      response = `END Your Amount Entered Is ${text.split("*")[2]}`
+      const amt = text.split("*")[2];
+      response = `END Your Amount Entered Is ${amt}`
     }
 
     return response
