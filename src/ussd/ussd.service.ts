@@ -64,7 +64,7 @@ export class UssdService {
       const damount = text.split("*")[2];
       //API Goes Here
       response = `END Donation Amount Is ${damount}`
-    }else if(text === `2*${merchantCode}*5}`){
+    }else if(text){
       // response = `CON Enter Amount to Pay`;
       // const amount = text.split("*")[2];
       //Api Goes Here
