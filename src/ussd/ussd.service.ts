@@ -48,10 +48,9 @@ export class UssdService {
       stages ==2;
        if(text === `1*${merchantCode}` || text === `2*${merchantCode}` || text === `3*${merchantCode}` || text === `4*${merchantCode}`){
         const a = text.split("*")[0];  
-        if(a === "1")
-        {
-          return response = `END Your Balance Is GHS13,520.00`;
-        }
+       
+          return response = `END Your Balance Is GHS13,520.00  ${a}`;
+        
         
 
     }else {
