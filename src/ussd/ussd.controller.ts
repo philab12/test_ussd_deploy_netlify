@@ -8,7 +8,7 @@ export class UssdController {
   constructor(private readonly ussdService: UssdService) {}
 
   @Post()
-@Header('content-type', 'text/plain')
+  @Header('content-type', 'text/plain')
   create(@Body() createUssdDto: CreateUssdDto) {
     const responsey =  this.ussdService.create(createUssdDto);
     return responsey
