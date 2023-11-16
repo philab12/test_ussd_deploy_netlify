@@ -32,14 +32,23 @@ export class UssdService {
       `;
     }
 
+    if(text){
     if(text === "1" || text === "2" || text === "3" || text === "4"){
       if(text === "2") response =  `CON Enter The Merchant Code`
       else if(text === "4") response =  `CON Enter Recipient Code`;
       
      else  response =  `CON Enter Your Merchant Code`;
+     return
     } else {
-      response =  `END Select A Valid Option`; 
+      response =  `CON Incorrect Choice Try Again
+      1. Check Balance
+      2. Make Payment
+      3. Accept Payment
+      4. Make a Donation
+      `; 
+      return
     }
+  }
 
     if(text === `1*${merchantCode}`){
       response = `END Merchant Balance GHS13,520.00`;
