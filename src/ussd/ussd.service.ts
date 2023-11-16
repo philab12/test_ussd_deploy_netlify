@@ -45,7 +45,7 @@ export class UssdService {
 
     else if(stages === 1)
     {
-      stages = 2;
+      //stages = 2;
        if(text === `1*${merchantCode}` || text === `2*${merchantCode}` || text === `3*${merchantCode}` || text === `4*${merchantCode}`){
         //const a = text.split("*")[0];  
        
