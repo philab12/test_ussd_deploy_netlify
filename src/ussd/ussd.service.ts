@@ -33,11 +33,10 @@ export class UssdService {
     }
 
     if(text === "1" || text === "2" || text === "3" || text === "4"){
-      if(text === "4")
-      {
-        return response = `CON Enter Recipient Code`;
-      }
-      return response = `CON Enter The Merchant Code`;
+      if(text === "2") return response = `Enter The Merchant Code`
+      if(text === "4") return response = `CON Enter Recipient Code`;
+      
+      return response = `Enter Your Merchant Code`;
     } else {
       return response = `END Select A Valid Option`; 
     }
