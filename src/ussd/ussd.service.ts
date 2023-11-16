@@ -32,7 +32,7 @@ export class UssdService {
       `;
     }
 
-    if(text){
+  
     if(text === "1" || text === "2" || text === "3" || text === "4"){
       if(text === "2") return response =  `CON Enter The Merchant Code`
       else if(text === "4") return response =  `CON Enter Recipient Code`;
@@ -48,13 +48,13 @@ export class UssdService {
       `; 
       
     }
-  }
+  
 
-    if(text === `1*${merchantCode}`){
-      response = `END Merchant Balance GHS13,520.00`;
-    } else {
-      response = `END Enter A Valid Merchant Code`;
-    }
+    // if(text === `1*${merchantCode}`){
+    //   response = `END Merchant Balance GHS13,520.00`;
+    // } else {
+    //   response = `END Enter A Valid Merchant Code`;
+    // }
 
    
 
