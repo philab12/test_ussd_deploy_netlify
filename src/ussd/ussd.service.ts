@@ -33,21 +33,13 @@ export class UssdService {
     }
 
   
-    if(text === "1" || text === "2" || text === "3" || text === "4"){
-      if(text === "2") return response =  `CON Enter The Merchant Code`
+    if(text === "1" || text === "2" || text === "3" || text === "4" || parseInt(text) > 4){
+      if(text === "1" || text === "3") return response =  `CON Enter Your Merchant Code`;
+      else if(text === "2") return response =  `CON Enter The Merchant Code`
       else if(text === "4") return response =  `CON Enter Recipient Code`;
+      else return response =  `END Invalid Input, Input Valid Between 1 and 4`; 
       
-     else  return response =  `CON Enter Your Merchant Code`;
-     
-    } else {
-     return response =  `CON Incorrect Choice Try Again
-      1. Check Balance
-      2. Make Payment
-      3. Accept Payment
-      4. Make a Donation
-      `; 
-      
-    }
+    } 
   
 
     // if(text === `1*${merchantCode}`){
