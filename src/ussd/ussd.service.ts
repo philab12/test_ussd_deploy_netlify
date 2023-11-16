@@ -86,7 +86,6 @@ export class UssdService {
     //   response = `END Your Amount Entered Is ${text}`
     // }
 
-    return response
   }
 
   findAll() {
