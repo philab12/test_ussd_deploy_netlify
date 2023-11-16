@@ -19,6 +19,7 @@ export class UssdService {
 
     const merchantCode = "M10001";
     const recipientCode = "R10001";
+    let stages;
 
     let amount_pay;
 
@@ -34,12 +35,34 @@ export class UssdService {
 
   
     if(text === "1" || text === "2" || text === "3" || text === "4" || parseInt(text) > 4){
-      if(text === "1" || text === "3") return response =  `CON Enter Your Merchant Code`;
+      stages = 1;
+      if(text === "1" || text === "3")  return response =  `CON Enter Your Merchant Code`;
       else if(text === "2") return response =  `CON Enter The Merchant Code`
       else if(text === "4") return response =  `CON Enter Recipient Code`;
       else return response =  `END Invalid Input, Input Valid Between 1 and 4`; 
       
     } 
+
+    else if(stages === 1)
+    {
+      stages ==2;
+       if(text === `1*${merchantCode}` || text === `2*${merchantCode}` || text === `3*${merchantCode}` || text === `4*${merchantCode}`){
+        const a = text.split("*")[0];  
+        if(a === "1")
+        {
+          return response = `END Your Balance Is GHS13,520.00`;
+        }
+        
+
+    }else {
+      const a = text.split("*")[0];
+      if(a === "4")
+      {
+        return response = `END Invalid Recipient Code`
+      }
+      return response = `END Invalid Merchant Code`
+    }
+  }
   
 
     // if(text === `1*${merchantCode}`){
