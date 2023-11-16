@@ -40,7 +40,7 @@ export class UssdService {
      else  return response =  `CON Enter Your Merchant Code`;
      
     } else {
-     return response =  `END Incorrect Choice Try Again
+     return response =  `CON Incorrect Choice Try Again
       1. Check Balance
       2. Make Payment
       3. Accept Payment
