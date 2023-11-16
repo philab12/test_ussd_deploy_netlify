@@ -35,7 +35,7 @@ export class UssdService {
 
   
     if(text === "1" || text === "2" || text === "3" || text === "4" || parseInt(text) > 4){
-      stages = 1;
+      //stages = 1;
       if(text === "1" || text === "3")  return response =  `CON Enter Your Merchant Code`;
       else if(text === "2") return response =  `CON Enter The Merchant Code`
       else if(text === "4") return response =  `CON Enter Recipient Code`;
@@ -43,8 +43,7 @@ export class UssdService {
       
     } 
 
-    else if(stages === 1)
-    {
+ 
       //stages = 2;
        if(text === `1*${merchantCode}` || text === `2*${merchantCode}` || text === `3*${merchantCode}` || text === `4*${merchantCode}`){
         //const a = text.split("*")[0];  
@@ -58,7 +57,7 @@ export class UssdService {
         return response = `END Invalid Recipient Code`
   
     }
-  }
+  
   
 
     // if(text === `1*${merchantCode}`){
