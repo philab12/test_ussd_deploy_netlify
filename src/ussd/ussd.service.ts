@@ -24,7 +24,7 @@ export class UssdService {
 
     if(text === ""){
       //this is the first request. Note how we start the response with CON
-      return response = `CON Welcome to PeoplesPay ?
+      return  `CON Welcome to PeoplesPay ?
       1. Check Balance
       2. Make Payment
       3. Accept Payment
@@ -33,14 +33,14 @@ export class UssdService {
     }
 
     if(text === "1" || text === "2" || text === "3" || text === "4"){
-      if(text === "2") return response = `CON Enter The Merchant Code`
-      if(text === "4") return response = `CON Enter Recipient Code`;
+      if(text === "2") return  `CON Enter The Merchant Code`
+      if(text === "4") return  `CON Enter Recipient Code`;
       
-      return response = `CON Enter Your Merchant Code`;
-    } else {
-      return response = `END Select A Valid Option`; 
-    }
+      return  `CON Enter Your Merchant Code`;
+    } 
 
+
+   
 
 
     // } else if(text === "1"){
