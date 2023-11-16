@@ -41,7 +41,7 @@ export class UssdService {
       response =  `END Select A Valid Option`; 
     }
 
-    if(text === `2*${merchantCode}`){
+    if(text === `1*${merchantCode}`){
       response = `END Merchant Balance GHS13,520.00`;
     } else {
       response = `END Enter A Valid Merchant Code`;
