@@ -34,19 +34,19 @@ export class UssdService {
 
     if(text){
     if(text === "1" || text === "2" || text === "3" || text === "4"){
-      if(text === "2") response =  `CON Enter The Merchant Code`
-      else if(text === "4") response =  `CON Enter Recipient Code`;
+      if(text === "2") return response =  `CON Enter The Merchant Code`
+      else if(text === "4") return response =  `CON Enter Recipient Code`;
       
-     else  response =  `CON Enter Your Merchant Code`;
-     return
+     else  return response =  `CON Enter Your Merchant Code`;
+     
     } else {
-      response =  `CON Incorrect Choice Try Again
+     return response =  `END Incorrect Choice Try Again
       1. Check Balance
       2. Make Payment
       3. Accept Payment
       4. Make a Donation
       `; 
-      return
+      
     }
   }
 
@@ -56,7 +56,6 @@ export class UssdService {
       response = `END Enter A Valid Merchant Code`;
     }
 
-   return response;
    
 
 
