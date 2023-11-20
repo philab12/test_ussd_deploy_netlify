@@ -93,7 +93,11 @@ export class UssdService {
         text = "";
         text = text1;
 
-        response = `CON Invalid Input, Input Valid Between 1 and 4`;
+        response = `CON Invalid Input Select Again ?
+        1. Check Balance
+        2. Make Payment
+        3. Accept Payment
+        4. Make a Donation`;
       }
       return response;
     }
