@@ -109,9 +109,9 @@ export class UssdService {
 
      else if(level[1] != merchantCode){
       if(level[0] == "1" && level[0] == "2" && level[0] == "3"){
-        response = `CON Invalid Merchant Code`;
+        response = `END Invalid Merchant Code`;
       } else {
-        response = `CON Invalid Recipient Code`;
+        response = `END Invalid Recipient Code`;
       }
 
        return response;
