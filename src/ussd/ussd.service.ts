@@ -110,8 +110,10 @@ export class UssdService {
      else if(level[1] != merchantCode){
       if(level[0] == "1" || level[0] == "2"  || level[0] == "3"){
         response = `END Invalid Merchant Code`;
+        level.pop();
       } else {
         response = `END Invalid Recipient Code`;
+        level.pop();
       }
 
        return response;
