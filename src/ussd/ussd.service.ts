@@ -5,8 +5,7 @@ import { UpdateUssdDto } from './dto/update-ussd.dto';
 @Injectable()
 export class UssdService {
   create(createUssdDto: CreateUssdDto) {
-     const { sessionId, serviceCode, phoneNumber } = createUssdDto;
-     let {text} = createUssdDto;
+    const { sessionId, serviceCode, phoneNumber, text } = createUssdDto;
 
     //var textValue = text.split('*').length;
 
@@ -110,13 +109,9 @@ export class UssdService {
 
      else if(level[1] != merchantCode){
       if(level[0] == "1" || level[0] == "2"  || level[0] == "3"){
-        response = `CON Invalid Merchant Code`;
-        text = level[0];
-        level = [];
+        response = `END Invalid Merchant Code`;
       } else {
-        response = `CON Invalid Recipient Code`;
-        text = level[0];
-        level = [];
+        response = `END Invalid Recipient Code`;
       }
 
        return response;
