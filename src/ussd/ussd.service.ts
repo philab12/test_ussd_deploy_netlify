@@ -26,33 +26,33 @@ export class UssdService {
       `;
     }
 
-    if (
-      text === '1' ||
-      text === '2' ||
-      text === '3' ||
-      text === '4' ||
-      parseInt(text) > 4
-    ) {
-      stages = 1;
-      if (text === '1' || text === '3')
-        return (response = `CON Enter Your Merchant Code`);
-      else if (text === '2') return (response = `CON Enter The Merchant Code`);
-      else if (text === '4') return (response = `CON Enter Recipient Code`);
-      else return (response = `END Invalid Input, Input Valid Between 1 and 4`);
-    } else if (stages == '1') {
-      if (
-        text === `1*${merchantCode}` ||
-        text === `2*${merchantCode}` ||
-        text === `3*${merchantCode}` ||
-        text === `4*${merchantCode}`
-      ) {
-        //const a = text.split("*")[0];
+    // if (
+    //   text === '1' ||
+    //   text === '2' ||
+    //   text === '3' ||
+    //   text === '4' ||
+    //   parseInt(text) > 4
+    // ) {
+    //   stages = 1;
+    //   if (text === '1' || text === '3')
+    //     return (response = `CON Enter Your Merchant Code`);
+    //   else if (text === '2') return (response = `CON Enter The Merchant Code`);
+    //   else if (text === '4') return (response = `CON Enter Recipient Code`);
+    //   else return (response = `END Invalid Input, Input Valid Between 1 and 4`);
+    // } else if (stages == '1') {
+    //   if (
+    //     text === `1*${merchantCode}` ||
+    //     text === `2*${merchantCode}` ||
+    //     text === `3*${merchantCode}` ||
+    //     text === `4*${merchantCode}`
+    //   ) {
+    //     //const a = text.split("*")[0];
 
-        return (response = `END Your Balance Is ${test}`);
-      } else {
-        return (response = `END Invalid Recipient Code`);
-      }
-    }
+    //     return (response = `END Your Balance Is ${test}`);
+    //   } else {
+    //     return (response = `END Invalid Recipient Code`);
+    //   }
+    // }
 
     // if(text === `1*${merchantCode}`){
     //   response = `END Merchant Balance GHS13,520.00`;
@@ -60,47 +60,42 @@ export class UssdService {
     //   response = `END Enter A Valid Merchant Code`;
     // }
 
-    // } else if(text === "1"){
-    //   //Business logic for first level response
-    //   response = `CON Enter The Merchant Code`;
-    // } else if(text === "2"){
-    //   //Get the mobile number from firestore Database
+    // } 
+    
+    if(text === "1"){
+      //Business logic for first level response
+      response = `CON Enter The Merchant Code`;
+    } else if(text === "2"){
+      //Get the mobile number from firestore Database
 
-    //   //Terminal Request
-    //   response = `CON Enter The Merchant Code`
-    // } else if(text === "3"){
-    //   response = `CON Enter Your Merchant Code`;
+      //Terminal Request
+      response = `CON Enter The Merchant Code`
+    } else if(text === "3"){
+      response = `CON Enter Your Merchant Code`;
 
-    // } else if(text === "4"){
-    //   response = `CON Enter Recipient Code`;
-    // } else if(text === `1*${merchantCode}`){
-    //   const balance = "ghc2000";
-    //   response = `END Your Balance Is ${balance}`
-    // } else if(text === `2*${merchantCode}`){
-    //   response = `CON Enter Amount to Pay`;
+    } else if(text === "4"){
+      response = `CON Enter Recipient Code`;
+    } else if(text === `1*${merchantCode}`){
+      const balance = "ghc2000";
+      response = `END Your Balance Is ${balance}`
+    } else if(text === `2*${merchantCode}`){
+      response = `CON Enter Amount to Pay`;
 
-    //  // amount_pay = text.split("*")[2];
+     // amount_pay = text.split("*")[2];
 
-    // } else if(text === `3*${merchantCode}`){
-    //   response = `CON Enter Amount to pay`;
-    //   const amount = text.split("*")[2];
-    //   response = `CON Enter Payee Wallet Number`;
-    //   const walletNumber = text.split("*")[3];
-    //   //API Goes Here
-    //   response = `END Payee Wallet Number Is ${walletNumber}`
+    } else if(text === `3*${merchantCode}`){
+      response = `CON Enter Amount to pay`;
 
-    // }else if(text === `4*${recipientCode}`){
-    //   response = `CON Enter Donation Amount`
-    //   const damount = text.split("*")[2];
-    //   //API Goes Here
-    //   response = `END Donation Amount Is ${damount}`
-    // }else if(text){
-    //   // response = `CON Enter Amount to Pay`;
-    //   // const amount = text.split("*")[2];
-    //   //Api Goes Here
-    //   //const amt = text.split("*");
-    //   response = `END Your Amount Entered Is ${text}`
-    // }
+    }else if(text === `4*${recipientCode}`){
+      response = `CON Enter Donation Amount`
+
+    }else if(text){
+      // response = `CON Enter Amount to Pay`;
+      // const amount = text.split("*")[2];
+      //Api Goes Here
+      //const amt = text.split("*");
+      response = `END Your Amount Entered Is ${text}`
+    }
   }
 
   findAll() {
