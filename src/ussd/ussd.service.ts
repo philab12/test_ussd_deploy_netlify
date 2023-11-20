@@ -5,8 +5,7 @@ import { UpdateUssdDto } from './dto/update-ussd.dto';
 @Injectable()
 export class UssdService {
   create(createUssdDto: CreateUssdDto) {
-    const { sessionId, serviceCode, phoneNumber } = createUssdDto;
-    let {text} = createUssdDto;
+    const { sessionId, serviceCode, phoneNumber, text } = createUssdDto;
 
     //var textValue = text.split('*').length;
 
@@ -89,15 +88,7 @@ export class UssdService {
       else if (text === '2') response = `CON Enter The Merchant Code`;
       else if (text === '4') response = `CON Enter Recipient Code`;
        else {
-        const text1 = text;
-        text = "";
-        text = text1;
-
-        response = `CON Invalid Input Select Again ?
-        1. Check Balance
-        2. Make Payment
-        3. Accept Payment
-        4. Make a Donation`;
+        response = `END Invalid Input, Input Valid Between 1 and 4`;
       }
       return response;
     }
