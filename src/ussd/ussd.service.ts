@@ -87,7 +87,7 @@ export class UssdService {
       if (text === '1' || text === '3') response = `CON Enter Your Merchant Code`;
       else if (text === '2') response = `CON Enter The Merchant Code`;
       else if (text === '4') response = `CON Enter Recipient Code`;
-      else response = `END Invalid Input, Input Valid Between 1 and 4`;
+      // else response = `END Invalid Input, Input Valid Between 1 and 4`;
       return response;
     }
     else if(level[0] && level[0]!="" && level[1] && !level[2]){
