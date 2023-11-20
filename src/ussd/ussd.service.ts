@@ -33,13 +33,13 @@ export class UssdService {
       text === '4' ||
       parseInt(text) > 4
     ) {
-      //stages = 1;
+      stages = 1;
       if (text === '1' || text === '3')
         return (response = `CON Enter Your Merchant Code`);
       else if (text === '2') return (response = `CON Enter The Merchant Code`);
       else if (text === '4') return (response = `CON Enter Recipient Code`);
       else return (response = `END Invalid Input, Input Valid Between 1 and 4`);
-    } else if (
+    } else if (stages == 1) { if (
       text === `1*${merchantCode}` ||
       text === `2*${merchantCode}` ||
       text === `3*${merchantCode}` ||
@@ -51,6 +51,7 @@ export class UssdService {
     } else {
       return (response = `END Invalid Recipient Code`);
     }
+  }
 
     // if(text === `1*${merchantCode}`){
     //   response = `END Merchant Balance GHS13,520.00`;
