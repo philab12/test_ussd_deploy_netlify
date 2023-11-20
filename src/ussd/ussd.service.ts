@@ -41,22 +41,18 @@ export class UssdService {
       else return (response = `END Invalid Input, Input Valid Between 1 and 4`);
     }
 
-    else if(text){
-    response = `END Your Balance Is ${text}`;
-    return response;
+ 
+
+      else if(text === `1*${merchantCode}` || text === `2*${merchantCode}` || text === `3*${merchantCode}` || text === `4*${merchantCode}`){
+        //const a = text.split("*")[0];
+
+          return response = `END Your Balance Is GHS13,520.00`;
+
+    }else {
+
+        return response = `END Invalid Recipient Code`
+
     }
-
-    //stages = 2;
-    //    if(text === `1*${merchantCode}` || text === `2*${merchantCode}` || text === `3*${merchantCode}` || text === `4*${merchantCode}`){
-    //     //const a = text.split("*")[0];
-
-    //       return response = `END Your Balance Is GHS13,520.00`;
-
-    // }else {
-
-    //     return response = `END Invalid Recipient Code`
-
-    // }
 
     // if(text === `1*${merchantCode}`){
     //   response = `END Merchant Balance GHS13,520.00`;
