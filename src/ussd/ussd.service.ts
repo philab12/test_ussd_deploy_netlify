@@ -108,7 +108,7 @@ export class UssdService {
      }
 
      else if(level[1] != merchantCode){
-      if(level[0] == "1" && level[0] == "2" && level[0] == "3"){
+      if(level[0] == "1" || level[0] == "2"  || level[0] == "3"){
         response = `END Invalid Merchant Code`;
       } else {
         response = `END Invalid Recipient Code`;
@@ -123,7 +123,51 @@ export class UssdService {
     }
 
 
+    else if(level[0] && level[0]!="" && level[1] && level[2] && !level[3]){
+      let response = "";
+       const number = parseFloat(level[2]);
+       if(this.isInt(number) || this.isFloat(number)){
+         if(level[0] == "2" || level[0] == "4"){
+          response = `END Transaction Done Successfully`;
+         }
+         if(level[0] == "3"){
+          response = `CON Enter Payee Wallet Number`;
+         }
+       }
+       else {
+         response = `END Invalid Amount Entered`;
+       }
+
+       return response;
+    }
+
+
+
+    else if(level[0] && level[0]!="" && level[1] && level[2] && level[3]){
+      let response = "";
+      const payee_wallet = 'P10001';
+
+      if(level[0] == "3" && level[3] == payee_wallet){
+        response = "END A Payment Prompt Has Been Sent Successfully";
+      }
+      else {
+        response = "END Invalid Payee Wallet Number"
+      }
+
+       return response;
+    }
+
+
   }
+
+
+  isInt(n){
+    return Number(n) === n && n % 1 === 0;
+}
+
+ isFloat(n){
+    return Number(n) === n && n % 1 !== 0;
+}
 
   findAll() {
     return `This action returns all ussd`;
