@@ -5,27 +5,20 @@ import { UpdateUssdDto } from './dto/update-ussd.dto';
 @Injectable()
 export class UssdService {
   create(createUssdDto: CreateUssdDto) {
-    const {
-      sessionId,
-      serviceCode,
-      phoneNumber,
-      text,
-  
-    } = createUssdDto;
+    const { sessionId, serviceCode, phoneNumber, text } = createUssdDto;
 
     //var textValue = text.split('*').length;
 
-    let response= "";
+    let response = '';
 
-    const merchantCode = "M10001";
-    const recipientCode = "R10001";
+    const merchantCode = 'M10001';
+    const recipientCode = 'R10001';
     let stages;
 
     let amount_pay;
 
-    if(text === ""){
-      //this is the first request. Note how we start the response with CON
-      return  `CON Welcome to PeoplesPay ?
+    if (text === '') {
+      return `CON Welcome to PeoplesPay ?
       1. Check Balance
       2. Make Payment
       3. Accept Payment
@@ -33,33 +26,37 @@ export class UssdService {
       `;
     }
 
-  
-    if(text === "1" || text === "2" || text === "3" || text === "4" || parseInt(text) > 4){
+    if (
+      text === '1' ||
+      text === '2' ||
+      text === '3' ||
+      text === '4' ||
+      parseInt(text) > 4
+    ) {
       //stages = 1;
-      if(text === "1" || text === "3")  return response =  `CON Enter Your Merchant Code`;
-      else if(text === "2") return response =  `CON Enter The Merchant Code`
-      else if(text === "4") return response =  `CON Enter Recipient Code`;
-      else return response =  `END Invalid Input, Input Valid Between 1 and 4`; 
-      
-    } 
+      if (text === '1' || text === '3')
+        return (response = `CON Enter Your Merchant Code`);
+      else if (text === '2') return (response = `CON Enter The Merchant Code`);
+      else if (text === '4') return (response = `CON Enter Recipient Code`);
+      else return (response = `END Invalid Input, Input Valid Between 1 and 4`);
+    }
 
-    return response = `END Your Balance Is ${text}`;
- 
-      //stages = 2;
+    else if(text){
+    response = `END Your Balance Is ${text}`;
+    return response;
+    }
+
+    //stages = 2;
     //    if(text === `1*${merchantCode}` || text === `2*${merchantCode}` || text === `3*${merchantCode}` || text === `4*${merchantCode}`){
-    //     //const a = text.split("*")[0];  
-       
+    //     //const a = text.split("*")[0];
+
     //       return response = `END Your Balance Is GHS13,520.00`;
-        
-        
 
     // }else {
-      
+
     //     return response = `END Invalid Recipient Code`
-  
+
     // }
-  
-  
 
     // if(text === `1*${merchantCode}`){
     //   response = `END Merchant Balance GHS13,520.00`;
@@ -67,20 +64,17 @@ export class UssdService {
     //   response = `END Enter A Valid Merchant Code`;
     // }
 
-   
-
-
     // } else if(text === "1"){
-    //   //Business logic for first level response 
+    //   //Business logic for first level response
     //   response = `CON Enter The Merchant Code`;
     // } else if(text === "2"){
     //   //Get the mobile number from firestore Database
-  
+
     //   //Terminal Request
     //   response = `CON Enter The Merchant Code`
     // } else if(text === "3"){
     //   response = `CON Enter Your Merchant Code`;
-  
+
     // } else if(text === "4"){
     //   response = `CON Enter Recipient Code`;
     // } else if(text === `1*${merchantCode}`){
@@ -90,7 +84,7 @@ export class UssdService {
     //   response = `CON Enter Amount to Pay`;
 
     //  // amount_pay = text.split("*")[2];
-  
+
     // } else if(text === `3*${merchantCode}`){
     //   response = `CON Enter Amount to pay`;
     //   const amount = text.split("*")[2];
@@ -111,7 +105,6 @@ export class UssdService {
     //   //const amt = text.split("*");
     //   response = `END Your Amount Entered Is ${text}`
     // }
-
   }
 
   findAll() {
