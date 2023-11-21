@@ -9,8 +9,8 @@ export class UssdController {
 
   @Post()
   @Header('content-type', 'text/plain')
-  create(@Body() createUssdDto: CreateUssdDto) {
-    const responsey =  this.ussdService.create(createUssdDto);
+  async create(@Body() createUssdDto: CreateUssdDto) {
+    const responsey =  await this.ussdService.create(createUssdDto);
     return responsey
   }
 
