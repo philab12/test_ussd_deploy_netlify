@@ -1,10 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUssdDto } from './dto/create-ussd.dto';
 import { UpdateUssdDto } from './dto/update-ussd.dto';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class UssdService {
-  create(createUssdDto: CreateUssdDto) {
+
+
+   constructor(private httpService: HttpService){}
+
+  async create(createUssdDto: CreateUssdDto) {
     const { sessionId, serviceCode, phoneNumber, text } = createUssdDto;
 
     //var textValue = text.split('*').length;
@@ -94,30 +100,46 @@ export class UssdService {
     }
     else if(level[0] && level[0]!="" && level[1] && !level[2]){
        let response: string;
-      if(level[0] == "1" && level[1] == merchantCode){
-        const balance = "ghc2000";
-        response = `END Your Balance Is ${balance}`;
-        return response;
-      }
-      else if((level[0] == "2" || level[0] == "3") && level[1] == merchantCode){
-         response = `CON Enter Amount To Pay`;
+       const data = {
+        "code":level[1]
+       }
+       try{
+       const httpResp = await firstValueFrom(this.httpService.post("https://peoplespay.com.gh/api/checkout/verify", data));
+        
+
+        if(level[0] == "1" && httpResp.data.success){
+          const balance = "ghc2000";
+          response = `END Your Balance Is ${balance}`;
+          return response;
+        }
+        else if((level[0] == "2" || level[0] == "3") && httpResp.data.success){
+           response = `CON Enter Amount To Pay`;
+           return response;
+        }
+  
+        else if(level[0] == "4" && httpResp.data.success){
+          response = `CON Enter Donation Amount`;
+          return response;
+       }
+  
+       else if(!httpResp.data.success){
+        if(level[0] == "1" || level[0] == "2"  || level[0] == "3"){
+          response = `END Invalid Merchant Code`;
+        } else {
+          response = `END Invalid Recipient Code`;
+        }
+  
          return response;
-      }
+       }
 
-      else if(level[0] == "4" && level[1] == merchantCode){
-        response = `CON Enter Donation Amount`;
-        return response;
-     }
 
-     else if(level[1] != merchantCode){
-      if(level[0] == "1" || level[0] == "2"  || level[0] == "3"){
-        response = `END Invalid Merchant Code`;
-      } else {
-        response = `END Invalid Recipient Code`;
-      }
 
-       return response;
-     }
+       }catch(error) {
+        throw error.message
+       }
+      
+
+    
 
 
 

@@ -1,0 +1,6 @@
+POST https://peoplespay.com.gh/api/checkout/verify
+content-type:application/json
+
+{
+    "code":"0702"
+}

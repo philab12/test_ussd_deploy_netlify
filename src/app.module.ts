@@ -12,6 +12,7 @@ import { AppService } from './app.service';
 // import {join} from 'path';
 // import {HandlebarsAdapter} from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter"
 import { UssdModule } from './ussd/ussd.module';
+import { HttpModule } from '@nestjs/axios';
 
 
 
@@ -24,7 +25,7 @@ config();
   // imports: [ConfigModule.forRoot({
   //   envFilePath: ".env"
   // }), TypeOrmModule.forRoot(dataSourceOptions), EventEmitterModule.forRoot(),ScheduleModule.forRoot(), AppModule],
-  imports:[UssdModule],
+  imports:[UssdModule, HttpModule],
   controllers: [],
   providers: [],
   // providers: [IsUniqueConstraint, AppService],
