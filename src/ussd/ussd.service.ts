@@ -108,7 +108,8 @@ export class UssdService {
         
 
         if(level[0] == "1" && httpResp.data.success){
-          const balance = httpResp.data.data.balance;
+           const balancee = parseFloat(httpResp.data.data.balance);
+           const balance = Number(balancee).toFixed(2);  
           response = `END Your Balance Is ${balance}`;
           return response;
         }
