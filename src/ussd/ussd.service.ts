@@ -108,7 +108,7 @@ export class UssdService {
         
 
         if(level[0] == "1" && httpResp.data.success){
-          const balance = "ghc2000";
+          const balance = httpResp.data.balance;
           response = `END Your Balance Is ${balance}`;
           return response;
         }
