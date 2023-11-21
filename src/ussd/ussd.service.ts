@@ -109,7 +109,8 @@ export class UssdService {
 
         if(level[0] == "1" && httpResp.data.success){
            const balancee = parseFloat(httpResp.data.data.balance);
-           const balance = Number(balancee).toFixed(2);  
+           const balancey = Number(balancee).toFixed(2);  
+           const balance = balancey.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
           response = `END Your Balance Is ${balance}`;
           return response;
         }
