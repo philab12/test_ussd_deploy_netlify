@@ -16,6 +16,7 @@ export class UssdService {
   async create(createUssdDto: CreateUssdDto) {
     const { sessionId, serviceCode, phoneNumber, text } = createUssdDto;
 
+    const phoneNumber1 = phoneNumber.replace(/[+-]/g, '').replace(/\s+/g, '')
     //var textValue = text.split('*').length;
 
     //let response = '';
@@ -82,12 +83,12 @@ export class UssdService {
     // }
 
     let level = [];
-    if(text != ""){
+    
     if(text.includes("*")){
      level = text.split("*");
 
     }
-  }
+  
     if(text == ""){
       return `CON Welcome to PeoplesPay ?
       1. Check Balance
@@ -108,18 +109,12 @@ export class UssdService {
     }
     else if(level[0] && level[0]!="" && level[1] && !level[2]){
        let response: string;
-       if(level[0] == "2"){
-         narration = `BEING PAYMENT MADE TO Merchant ${level[1]}`;
-       }else if(level[0] == "3"){
-         narration = `PAYMENT ACCEPTED BY Merchant ${level[1]}`;
-       }else if(level[0] == "4"){
-         narration = `DONATION TO Merchant ${level[1]}`;
-       }
+   
        const data = {
         "code":level[1]
        }
        try{
-       const httpResp = await firstValueFrom(this.httpService.post(`${process.env.peopleUrl}/verify`, data));
+       const httpResp = await firstValueFrom(this.httpService.post(`https://peoplespay.com.gh/api/checkout/verify`, data));
         
 
         if(level[0] == "1" && httpResp.data.success){
@@ -202,9 +197,16 @@ export class UssdService {
     }
 
 
-    else if(level[0] && level[0]!="" && level[1] && level[2] && level[3]){
+    else if(level[0] && level[0]!="" && level[1] && level[2] && level[3] && !level[4]){
       let response = "";
        const number = parseFloat(level[3]);
+       if(level[0] == "2"){
+        narration = `BEING PAYMENT MADE TO Merchant ${level[1]}`;
+      }else if(level[0] == "3"){
+        narration = `PAYMENT ACCEPTED BY Merchant ${level[1]}`;
+      }else if(level[0] == "4"){
+        narration = `DONATION TO Merchant ${level[1]}`;
+      }
        if(this.isInt(number) || this.isFloat(number)){
          if(level[0] == "2" || level[0] == "4"){
           // response = `END Transaction Done Successfully`;
@@ -221,7 +223,7 @@ export class UssdService {
           const data = {
             "code":level[1],
             "amount":level[3],
-            "payee":phoneNumber,
+            "payee":phoneNumber1,
             "issuer":network,
             narration
            }
@@ -235,7 +237,7 @@ export class UssdService {
                
              }
          }catch(error){
-             response = `END Server Issues`;
+             response = `${error}`;
          }
       
          return response;
@@ -266,12 +268,28 @@ export class UssdService {
       // const payee_wallet = 'P10001';
 
       if(level[0] == "3" && parseInt(level[4])){
-        response = "END A Payment Prompt Has Been Sent Successfully";
+        // response = "END A Payment Prompt Has Been Sent Successfully";
+         if(level[0] == "3"){
+          narration = `PAYMENT ACCEPTED BY Merchant ${level[1]}`;
+
+       
+         }
+
+         
+         if(level[2] == "1"){
+          network = "mtn";
+        }
+        else if(level[2] == "2"){
+          network = "vodafone";
+        }
+        else if(level[2] == "3"){
+          network = "airteltigo";
+        }
         const data = {
           "code":level[1],
           "amount":level[3],
           "payee":level[4],
-          "issuer":network,
+          "issuer":"mtn",
           narration
          }
         try{
