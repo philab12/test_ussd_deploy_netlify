@@ -82,10 +82,12 @@ export class UssdService {
     // }
 
     let level = [];
+    if(text != ""){
     if(text.includes("*")){
      level = text.split("*");
 
     }
+  }
     if(text == ""){
       return `CON Welcome to PeoplesPay ?
       1. Check Balance
