@@ -21,8 +21,8 @@ export class UssdService {
     //let response = '';
 
     const merchantCode = 'M10001';
-   // let narration ="";
-   // let network = "";
+    //let narration ="";
+    //let network = "";
     //const recipientCode = 'R10001';
 
 
@@ -94,16 +94,16 @@ export class UssdService {
       4. Make a Donation
       `;
     }
-    // else if(text == "1" || text == "2" || text == "3" || text == "4" || parseInt(text) > 4){
-    //   let response:string;
-    //   if (text === '1' || text === '3') response = `CON Enter Your Merchant Code`;
-    //   else if (text === '2') response = `CON Enter The Merchant Code`;
-    //   else if (text === '4') response = `CON Enter Recipient Code`;
-    //    else {
-    //     response = `END Invalid Input, Input Valid Between 1 and 4`;
-    //   }
-    //   return response;
-    // }
+    else if(text == "1" || text == "2" || text == "3" || text == "4" || parseInt(text) > 4){
+      let response:string;
+      if (text === '1' || text === '3') response = `CON Enter Your Merchant Code`;
+      else if (text === '2') response = `CON Enter The Merchant Code`;
+      else if (text === '4') response = `CON Enter Recipient Code`;
+       else {
+        response = `END Invalid Input, Input Valid Between 1 and 4`;
+      }
+      return response;
+    }
     // else if(level[0] && level[0]!="" && level[1] && !level[2]){
     //    let response: string;
     //    if(level[0] == "2"){
