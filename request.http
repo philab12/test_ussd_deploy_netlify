@@ -1,6 +1,20 @@
+
 POST https://peoplespay.com.gh/api/checkout/verify
 content-type:application/json
 
 {
-    "code":"0702"
+    "code":"000274"
+}
+
+###
+POST https://peoplespay.com.gh/api/checkout/payment
+content-type:application/json
+
+{
+    "code":"000274",
+    "amount":"0.01",
+    "payee":"0248621614",
+    "issuer":"mtn",
+    "narration":"hh"
+
 }
