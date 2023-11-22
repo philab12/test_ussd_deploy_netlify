@@ -127,24 +127,23 @@ export class UssdService {
           return response;
         }
 
-
+      
        else if((level[0] == "2" || level[0] == "3" || level[0] == "4") && httpResp.data.success){
           if(level[0] == "3"){
 
-            response = `CON Select Network To Accept Payment ?
+           return response = `CON Select Network To Accept Payment ?
             1. MTN
             2. VODAFONE
             3. AIRTELTIGO
             `;
 
           }else{
-          response = `CON Please Select Network You Are Using ?
+         return response = `CON Please Select Network You Are Using ?
           1. MTN
           2. VODAFONE
           3. AIRTELTIGO
           `;
           }
-          return response;
        }
   
        else if(!httpResp.data.success){
