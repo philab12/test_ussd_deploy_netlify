@@ -177,8 +177,8 @@ export class UssdService {
       let response = "";
 
 
-       const number = parseInt(level[2]);
-       if(this.isInt(number) && number <= 3){
+      // const number = parseInt(level[2]);
+       if(level[2] == "1" || level[2] == "2" || level[2] == "3"){
             if(level[0] == "2"){
            response = `CON Enter Amount To Pay`;
            return response;
