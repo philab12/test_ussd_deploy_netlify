@@ -21,7 +21,7 @@ export class UssdService {
     //let response = '';
 
     const merchantCode = 'M10001';
-    //let narration ="";
+    let narration ="";
     //let network = "";
     //const recipientCode = 'R10001';
 
@@ -104,64 +104,64 @@ export class UssdService {
       }
       return response;
     }
-    // else if(level[0] && level[0]!="" && level[1] && !level[2]){
-    //    let response: string;
-    //    if(level[0] == "2"){
-    //      narration = `BEING PAYMENT MADE TO Merchant ${level[1]}`;
-    //    }else if(level[0] == "3"){
-    //      narration = `PAYMENT ACCEPTED BY Merchant ${level[1]}`;
-    //    }else if(level[0] == "4"){
-    //      narration = `DONATION TO Merchant ${level[1]}`;
-    //    }
-    //    const data = {
-    //     "code":level[1]
-    //    }
-    //    try{
-    //    const httpResp = await firstValueFrom(this.httpService.post(`${process.env.peopleUrl}/verify`, data));
+    else if(level[0] && level[0]!="" && level[1] && !level[2]){
+       let response: string;
+       if(level[0] == "2"){
+         narration = `BEING PAYMENT MADE TO Merchant ${level[1]}`;
+       }else if(level[0] == "3"){
+         narration = `PAYMENT ACCEPTED BY Merchant ${level[1]}`;
+       }else if(level[0] == "4"){
+         narration = `DONATION TO Merchant ${level[1]}`;
+       }
+       const data = {
+        "code":level[1]
+       }
+       try{
+       const httpResp = await firstValueFrom(this.httpService.post(`${process.env.peopleUrl}/verify`, data));
         
 
-    //     if(level[0] == "1" && httpResp.data.success){
-    //        const balance = `GHC${Number(parseFloat(httpResp.data.data.balance)).toFixed(2).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}`;
+        if(level[0] == "1" && httpResp.data.success){
+           const balance = `GHC${Number(parseFloat(httpResp.data.data.balance)).toFixed(2).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}`;
   
-    //       response = `END Your Balance Is ${balance}`;
-    //       return response;
-    //     }
+          response = `END Your Balance Is ${balance}`;
+          return response;
+        }
 
 
-    //    else if((level[0] == "2" || level[0] == "3" || level[0] == "4") && httpResp.data.success){
-    //       if(level[0] == "3"){
+       else if((level[0] == "2" || level[0] == "3" || level[0] == "4") && httpResp.data.success){
+          if(level[0] == "3"){
 
-    //         response = `CON Select Network To Accept Payment ?
-    //         1. MTN
-    //         2. VODAFONE
-    //         3. AIRTELTIGO
-    //         `;
+            response = `CON Select Network To Accept Payment ?
+            1. MTN
+            2. VODAFONE
+            3. AIRTELTIGO
+            `;
 
-    //       }else{
-    //       response = `CON Please Select Network You Are Using ?
-    //       1. MTN
-    //       2. VODAFONE
-    //       3. AIRTELTIGO
-    //       `;
-    //       }
-    //       return response;
-    //    }
+          }else{
+          response = `CON Please Select Network You Are Using ?
+          1. MTN
+          2. VODAFONE
+          3. AIRTELTIGO
+          `;
+          }
+          return response;
+       }
   
-    //    else if(!httpResp.data.success){
-    //     if(level[0] == "1" || level[0] == "2"  || level[0] == "3"){
-    //       response = `END Invalid Merchant Code`;
-    //     } else {
-    //       response = `END Invalid Recipient Code`;
-    //     }
+       else if(!httpResp.data.success){
+        if(level[0] == "1" || level[0] == "2"  || level[0] == "3"){
+          response = `END Invalid Merchant Code`;
+        } else {
+          response = `END Invalid Recipient Code`;
+        }
   
-    //      return response;
-    //    }
+         return response;
+       }
 
 
 
-    //    }catch(error) {
-    //     return `END Server Issues`;
-    //    }
+       }catch(error) {
+        return `END Server Issues`;
+       }
       
 
     
@@ -169,7 +169,7 @@ export class UssdService {
 
 
 
-    // }
+    }
 
 
 
