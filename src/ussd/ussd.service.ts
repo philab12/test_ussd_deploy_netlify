@@ -4,317 +4,434 @@ import { UpdateUssdDto } from './dto/update-ussd.dto';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import * as dotenv from 'dotenv';
+import xml2json from '@hendt/xml2json';
+import * as moment from 'moment';
+import { Builder, parseString } from 'xml2js';
 
 
 
 @Injectable()
 export class UssdService {
 
+   private requestId:string;
+   private sessionId:string;
+   private msisdn:string;
+   private starCode:string;
+   private id:number;
+   private rspFlag:number;
+   private tagSet:string;
+   private noti_message:string;
+   private error_message:string;
+   private session_timestamp:any;
 
+
+
+  
    constructor(private httpService: HttpService){}
 
-  async create(createUssdDto: CreateUssdDto) {
-    const { sessionId, serviceCode, phoneNumber, text } = createUssdDto;
+  async create(xmlData:string) {
+ 
+    const jsonData = xml2json(xmlData);
+    const {requestId,sessionId, msisdn, starCode, keyWord, featureId,dataSet, userData, timeStamp} = jsonData.USSDDynMenuRequest;
 
-    const phoneNumber1 = phoneNumber.replace(/[+-]/g, '').replace(/\s+/g, '')
-    //var textValue = text.split('*').length;
-
-    //let response = '';
-
-    const merchantCode = 'M10001';
-    let narration ="";
-    let network = "";
-    //const recipientCode = 'R10001';
+    const {sequence, intro, merchantCode, amount_trans, network_selected} = dataSet.param;
+    this.requestId = requestId;
+    this.sessionId = sessionId;
+    this.msisdn = msisdn;
+    this.starCode = starCode;
 
 
-    // if (text === '') {
-    //   return `CON Welcome to PeoplesPay ?
-    //   1. Check Balance
-    //   2. Make Payment
-    //   3. Accept Payment
-    //   4. Make a Donation
-    //   `;
-    // }
-
-    
-     
-    
-    // if(text === "1"){
-    //   //Business logic for first level response
-    //   const response = `CON Enter The Merchant Code`;
-    //   return response;
-    // } else if(text === "2"){
-    //   //Get the mobile number from firestore Database
-
-    //   //Terminal Request
-    //   const response = `CON Enter The Merchant Code`
-    //   return response;
-    // } else if(text === "3"){
-    //   const response = `CON Enter Your Merchant Code`;
-    //   return response;
-    // } else if(text === "4"){
-    //   const response = `CON Enter Recipient Code`;
-    //   return response;
-    // } else if(text === `1*${merchantCode}`){
-    //   const balance = "ghc2000";
-    //   const response = `END Your Balance Is ${balance}`;
-    //   return response;
-    // } else if(text === `2*${merchantCode}`){
-    //   const response = `CON Enter Amount to Pay`;
-    //   return response;
-
-    //  // amount_pay = text.split("*")[2];
-
-    // } else if(text === `3*${merchantCode}`){
-    //   const response = `CON Enter Amount to pay`;
-    //   return response;
-
-    // }else if(text === `4*${recipientCode}`){
-    //   const response = `CON Enter Donation Amount`;
-    //   return response;
-
-    // }else if(text){
-    //   // response = `CON Enter Amount to Pay`;
-    //   // const amount = text.split("*")[2];
-    //   //Api Goes Here
-    //   //const amt = text.split("*");
-    //   const response = `END Your Amount Entered Is ${text}`;
-    //   return response;
-    // }
-
-    let level = [];
-    
-    if(text.includes("*")){
-     level = text.split("*");
-
-    }
+  //   <tagSet>
+  //   <sequence>${sequence}</sequence>
+  //   <intro>${intro}</intro>
+  //   <merchantCode>${merchantCode}</merchantCode>
+  //   <amount_trans>${amount_trans}</amount_trans>
+  // </tagSet>
   
-    if(text == ""){
-      return `CON Welcome to PeoplesPay ?
+    //const session_timestamp = moment(t).format('Y-m-d H:i:s');
+    this.session_timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
+    const phoneNumber1 = msisdn.replace(/[+-]/g, '').replace(/\s+/g, '')
+    // let intro:string;
+    // let sequence:string;
+    // let network_selected :string;
+    // let merchantCode:string;
+    let narration:string;
+    let network:string;
+    // let amount_trans;
+
+
+    if(userData === "*421#"){
+      const sequencee = "1";
+      this.id = 1;
+      this.rspFlag = 1;
+      this.noti_message = `Welcome to PeoplesPay
       1. Check Balance
       2. Make Payment
       3. Accept Payment
-      4. Make a Donation
+      4. Make a Donation`;
+
+      this.tagSet = `
+      <tagSet>
+      <sequence>${sequencee}</sequence>
+    </tagSet>
       `;
+
+      // const data = this.xmlData();
+
+
+      // const httpRespp = await firstValueFrom(this.httpService.post(`https://172.17.9.18`, data,{
+      //   headers: { 'Content-Type': 'application/xml' },
+      // }));
+
+      //  if(httpRespp.data){
+      //   return "OK";
+      //  }
+
+      // const xmlObject = await this.parseXml(this.xmlData());
+      // this.removeNode(xmlObject, "xml");
+      // return this.buildXml(xmlObject);
+      return this.xmlData();
+     // return 
+
+     // return this.xmlData();
     }
-    else if(text == "1" || text == "2" || text == "3" || text == "4" || parseInt(text) > 4){
-      let response:string;
-      if (text === '1' || text === '3') response = `CON Enter Your Merchant Code`;
-      else if (text === '2') response = `CON Enter The Merchant Code`;
-      else if (text === '4') response = `CON Enter Recipient Code`;
-       else {
-        response = `END Invalid Input, Input Valid Between 1 and 4`;
+
+    else if((userData == "1" || userData == "2" || userData == "3" || userData == "4" || parseInt(userData) > 4) && sequence == "1") {
+      const introo = userData;
+      const sequencee = "2";
+
+      this.id = 2;
+      this.rspFlag = 1;
+      this.tagSet = `
+      <tagSet>
+      <sequence>${sequencee}</sequence>
+      <intro>${introo}</intro>
+    </tagSet>
+      `;
+
+
+      if(userData === '1' || userData === '3')
+      {
+        this.noti_message = "Enter Your Merchant Code";
+      }else if (userData === '2') {
+        this.noti_message = "Enter The Merchant Code";
+      }else if(userData === "4"){
+        this.noti_message = "Enter Recipient Code";
       }
-      return response;
-    }
-    else if(level[0] && level[0]!="" && level[1] && !level[2]){
-       let response: string;
    
-       const data = {
-        "code":level[1]
-       }
-       try{
-       const httpResp = await firstValueFrom(this.httpService.post(`https://peoplespay.com.gh/api/checkout/verify`, data));
-        
+       else {
+        this.error_message = "Invalid Choice";
+        return this.xmlError();
+      }
 
-        if(level[0] == "1" && httpResp.data.success){
-           const balance = `GHC${Number(parseFloat(httpResp.data.data.balance)).toFixed(2).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}`;
+      // const data = this.xmlData();
+
+
+      // const httpRespp = await firstValueFrom(this.httpService.post(`https://172.17.9.18`, data,{
+      //   headers: { 'Content-Type': 'application/xml' },
+      // }));
+
+      //  if(httpRespp.data){
+      //   return "OK";
+      //  }
+      // const xmlObject = await this.parseXml(this.xmlData());
+      // this.removeNode(xmlObject, "<xml>");
+      // return this.buildXml(xmlObject);
+      return this.xmlData();
+      //return 
+    }  
+    
+    
+    else if(userData && sequence == "2") {
+      const merchantCodee = userData;
+      const sequencee = "3";
+
+
+      this.id = 3;
+      this.rspFlag = 1;
+      this.tagSet = `<tagSet>
+      <sequence>${sequencee}</sequence>
+      <intro>${intro}</intro>
+      <merchantCode>${merchantCodee}</merchantCode>
+    </tagSet>
+      `;
+
+ 
   
-          response = `END Your Balance Is ${balance}`;
-          return response;
-        }
+      const data = {
+       "code":userData
+      }
+      try{
+      const httpResp = await firstValueFrom(this.httpService.post(`https://peoplespay.com.gh/api/checkout/verify`, data));
+       
 
-      
-       else if((level[0] == "2" || level[0] == "3" || level[0] == "4") && httpResp.data.success){
-          if(level[0] == "3"){
+       if(intro == "1" && httpResp.data.success){
+          const balance = `GHC${Number(parseFloat(httpResp.data.data.balance)).toFixed(2).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}`;
+         
+          this.rspFlag = 2;
+          this.tagSet = "";
+          this.noti_message = `Merchant Balance Is ${balance}`;
 
-           return response = `CON Select Network To Accept Payment ?
-            1. MTN
-            2. VODAFONE
-            3. AIRTELTIGO
-            `;
+         return this.xmlData();
+       }
 
-          }else{
-         return response = `CON Please Select Network You Are Using ?
+     
+      else if((intro == "2" || intro == "3" || intro == "4") && httpResp.data.success){
+         if(intro == "3"){
+
+          this.noti_message = `Select Network To Accept Payment ?
           1. MTN
           2. VODAFONE
-          3. AIRTELTIGO
-          `;
-          }
-       }
-  
-       else if(!httpResp.data.success){
-        if(level[0] == "1" || level[0] == "2"  || level[0] == "3"){
-          response = `END Invalid Merchant Code`;
-        } else {
-          response = `END Invalid Recipient Code`;
-        }
-  
-         return response;
-       }
+          3. AIRTELTIGO`;
 
+          return this.xmlData();
 
+         }else{
 
-       }catch(error) {
-        return `END Server Issues`;
-       }
-      
+          this.noti_message = `Please Select Network You Are Using ?
+          1. MTN
+          2. VODAFONE
+          3. AIRTELTIGO`
 
-    
+        return this.xmlData();
+         }
+      }
+ 
+      else if(!httpResp.data.success){
+       if(intro == "1" || intro == "2"  || intro == "3"){
 
+        this.error_message = "Invalid Merchant Code";
+        return this.xmlError();
 
-
-
-    }
-
-
-
-
-    else if(level[0] && level[0]!="" && level[1] && level[2] && !level[3]){
-      let response = "";
-
-
-      // const number = parseInt(level[2]);
-       if(level[2] == "1" || level[2] == "2" || level[2] == "3"){
-            if(level[0] == "2"){
-           response = `CON Enter Amount To Pay`;
-           return response;
-        } else if(level[0] == "3"){
-          response = `CON Enter Amount To Accept Payment`;
-          return response;
-        }
-  
-        else if(level[0] == "4"){
-          response = `CON Enter Donation Amount`;
-          return response;
-       }
        } else {
-        response = `END Invalid Selection`;
-        return response;
-       }
 
-       
-    }
-
-
-    else if(level[0] && level[0]!="" && level[1] && level[2] && level[3] && !level[4]){
-      let response = "";
-       const number = parseFloat(level[3]);
-       if(level[0] == "2"){
-        narration = `BEING PAYMENT MADE TO Merchant ${level[1]}`;
-      }else if(level[0] == "3"){
-        narration = `PAYMENT ACCEPTED BY Merchant ${level[1]}`;
-      }else if(level[0] == "4"){
-        narration = `DONATION TO Merchant ${level[1]}`;
-      }
-       if(this.isInt(number) || this.isFloat(number)){
-         if(level[0] == "2" || level[0] == "4"){
-          // response = `END Transaction Done Successfully`;
-          
-          if(level[2] == "1"){
-            network = "mtn";
-          }
-          else if(level[2] == "2"){
-            network = "vodafone";
-          }
-          else if(level[2] == "3"){
-            network = "airteltigo";
-          }
-          const data = {
-            "code":level[1],
-            "amount":level[3],
-            "payee":phoneNumber1,
-            "issuer":network,
-            narration
-           }
-          try{
-            const httpResp = await firstValueFrom(this.httpService.post(`${process.env.peopleUrl}/payment`, data));
-             
-     
-             if((level[0] == "2" || level[0] == "4") && httpResp.data.success){
-       
-               response = `END Transaction Received For Processing, Pending Authorization From You...`;
-               
-             }
-         }catch(error){
-             response = `${error}`;
-         }
-      
-         return response;
-       }
-       else {
-        response = `END Invalid Amount Entered`;
-      }
-
-      if(level[0] == "3"){
-        response = `CON Enter Payee Wallet Number`;
-       }
-
-       return response;
-
-      }
-
-      
-      
-
-    
-    }
+        this.error_message = "Invalid Recipient Code";
+        return this.xmlError();
   
+       }
+ 
+      }
 
 
 
-    else if(level[0] && level[0]!="" && level[1] && level[2] && level[3] && level[4]){
-      let response = "";
-      // const payee_wallet = 'P10001';
+      }catch(error) {
 
-      if(level[0] == "3" && parseInt(level[4])){
-        // response = "END A Payment Prompt Has Been Sent Successfully";
-         if(level[0] == "3"){
-          narration = `PAYMENT ACCEPTED BY Merchant ${level[1]}`;
+        this.error_message = "Server Issues";
+        return this.xmlError();
 
-       
-         }
+      }
+     
 
-         
-         if(level[2] == "1"){
+   }
+
+
+   else if(sequence == "3"){
+    const network_selectede = userData 
+
+    const sequencee = "4";
+
+    this.id = 4;
+    this.rspFlag = 1;
+    this.tagSet = `<tagSet>
+    <sequence>${sequencee}</sequence>
+    <intro>${intro}</intro>
+    <merchantCode>${merchantCode}</merchantCode>
+    <network_selected>${network_selectede}</network_selected>
+  </tagSet>
+    `;
+
+
+
+    // const number = parseInt(level[2]);
+     if(intro == "1" || intro == "2" || intro == "3" || intro == "4"){
+          if(intro === "2"){
+            this.noti_message = "Enter Amount To Pay";
+            return this.xmlData();
+      } else if(intro === "3"){
+        this.noti_message = "Enter Amount To Pay";
+        return this.xmlData();
+      }
+
+      else if(intro === "4"){
+        this.noti_message = "Enter Donation Amount";
+        return this.xmlData();  
+     }
+     } else {
+      this.error_message = "Invalid Selection";
+      return this.xmlError();
+
+     }
+
+     
+  }
+
+  else if(sequence == "4"){
+    const sequencee = "5";
+    const amount_transe = parseFloat(userData);
+     const number = parseFloat(userData);
+
+     this.id = 5;
+     this.rspFlag = 1;
+     this.tagSet = `<tagSet>
+     <sequence>${sequencee}</sequence>
+     <intro>${intro}</intro>
+     <merchantCode>${merchantCode}</merchantCode>
+     <network_selected>${network_selected}</network_selected>
+     <amount_trans>${amount_transe}</amount_trans>
+   </tagSet>
+     `;
+
+
+
+
+
+
+     if(intro == "2"){
+      this.noti_message = `BEING PAYMENT MADE TO Merchant ${merchantCode}`;
+    }else if(intro == "3"){
+      this.noti_message = `PAYMENT ACCEPTED BY Merchant ${merchantCode}`;
+    }else if(intro == "4"){
+      this.noti_message = `DONATION TO Merchant ${merchantCode}`;
+    }
+     if(this.isInt(number) || this.isFloat(number)){
+       if(intro == "2" || intro == "4"){
+        // response = `END Transaction Done Successfully`;
+        
+        if(network_selected == "1"){
           network = "mtn";
         }
-        else if(level[2] == "2"){
+        else if(network_selected == "2"){
           network = "vodafone";
         }
-        else if(level[2] == "3"){
+        else if(network_selected == "3"){
           network = "airteltigo";
         }
         const data = {
-          "code":level[1],
-          "amount":level[3],
-          "payee":level[4],
-          "issuer":"mtn",
+          "code":merchantCode,
+          "amount":userData,
+          "payee":phoneNumber1,
+          "issuer":network,
           narration
          }
         try{
           const httpResp = await firstValueFrom(this.httpService.post(`${process.env.peopleUrl}/payment`, data));
            
    
-           if(httpResp.data.success){
-          
+           if((intro == "2" || intro == "4") && httpResp.data.success){
+
+            if(httpResp.data.success){
      
-             response = `END A Payment Prompt Has Been Sent Successfully`;
+            this.rspFlag = 2;
+            this.tagSet = "";
+            this.noti_message = "Transaction Received For Processing, Pending Authorization From You...";
+            return this.xmlData();
+            }
+
+        
              
            }
        }catch(error){
-           response = `END Server Issues`;
+        this.error_message = "Server Issues";
+        return this.xmlError();
+  
        }
     
-       return response;
-      }
-      else {
-        response = "END Invalid Payee Wallet Number"
-      }
+     }
+     else if(intro == "3"){
+      this.noti_message = "Enter Wallet Payee Number";
+      return this.xmlData();
+      
+     }
+  
 
-       return response;
+    }   else {
+      this.error_message = "Invalid Amount Entered";
+      return this.xmlError();
+
     }
 
+
+    
+    
+
+  
+  }
+
+
+  else if(sequence == "5"){
+    const sequencee = "6";
+    // const payee_wallet = 'P10001';
+
+    this.id = 6;
+    this.rspFlag = 1;
+    this.tagSet = `<tagSet>
+    <sequence>${sequencee}</sequence>
+    <intro>${intro}</intro>
+    <merchantCode>${merchantCode}</merchantCode>
+    <network_selected>${network_selected}</network_selected>
+    <amount_trans>${amount_trans}</amount_trans>
+  </tagSet>
+    `;
+    const narration = `PAYMENT ACCEPTED BY Merchant ${merchantCode}`;
+
+
+    if(intro == "3"){
+      // response = "END A Payment Prompt Has Been Sent Successfully";
+       
+        this.noti_message = `A Payment Prompt Has Been Sent Successfully`;
+
+     
+       this.rspFlag = 2;
+       this.tagSet = ""
+
+       
+       if(network_selected == "1"){
+        network = "mtn";
+      }
+      else if(network_selected == "2"){
+        network = "vodafone";
+      }
+      else if(network_selected == "3"){
+        network = "airteltigo";
+      }
+      const data = {
+        "code":merchantCode,
+        "amount":amount_trans,
+        "payee":userData,
+        "issuer":network,
+        narration
+       }
+      try{
+        const httpResp = await firstValueFrom(this.httpService.post(`${process.env.peopleUrl}/payment`, data));
+         
+ 
+         if(httpResp.data.success){
+        
+   
+          return this.xmlData();
+           
+         }else {
+
+          this.error_message = "Transaction Did Not Go Through";
+          return this.xmlError();
+
+         }
+     }catch(error){
+
+      this.error_message = "Server Issues";
+      return this.xmlError();
+     }
+  
+    }
+    else {
+
+      this.error_message = "Invalid Payee Wallet Number";
+      return this.xmlError();
+
+    }
+
+  }
+    
 
   }
 
@@ -326,6 +443,68 @@ export class UssdService {
  isFloat(n){
     return Number(n) === n && n % 1 !== 0;
 }
+
+  xmlData() {
+    return `<USSDDynMenuResponse>
+   <requestId>${this.requestId}</requestId>
+   <sessionId>${this.sessionId}</sessionId>
+   <msisdn>${this.msisdn}</msisdn>
+   <starCode>${this.starCode}</starCode>                    
+   <dataSet>
+       <param>
+           <id>${this.id}</id>
+           <value>${this.noti_message}</value>
+           <rspFlag>${this.rspFlag}</rspFlag>
+           <default>1</default>
+           <appendIndex>0</appendIndex>
+           ${this.tagSet}
+       </param>
+   </dataset>
+   <ErrCode>1</ErrCode>
+   <timeStamp>${this.session_timestamp}</timeStamp>
+   <langId>1</langId>
+   <encodingScheme>0</encodingScheme>
+</USSDDynMenuResponse>`;
+  }
+
+
+  xmlError(){
+    return `<USSDError>
+         <requestid>${this.requestId}</requestId>
+         <errorCode>112</errorCode>
+         <responseFlag>Y</responseFlag>
+         <userData>${this.error_message}</userData>
+         </USSDError>`;
+  }
+
+
+
+
+  private parseXml(xml: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      parseString(xml, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  }
+
+  private removeNode(xmlObject: any, nodeName: string): void {
+    delete xmlObject[nodeName];
+  }
+
+
+  private buildXml(xmlObject: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const builder = new Builder();
+      const xml = builder.buildObject(xmlObject);
+      resolve(xml);
+    });
+  }
+
 
   findAll() {
     return `This action returns all ussd`;

@@ -1,16 +1,16 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Header } from '@nestjs/common';
 import { UssdService } from './ussd.service';
-import { CreateUssdDto } from './dto/create-ussd.dto';
+// import { CreateUssdDto } from './dto/create-ussd.dto';
 import { UpdateUssdDto } from './dto/update-ussd.dto';
 
-@Controller('ussd')
+@Controller()
 export class UssdController {
   constructor(private readonly ussdService: UssdService) {}
 
   @Post()
-  @Header('content-type', 'text/plain')
-  async create(@Body() createUssdDto: CreateUssdDto) {
-    const responsey =  await this.ussdService.create(createUssdDto);
+  @Header('content-type', 'text/xml')
+  async create(@Body() xmlData) {
+    const responsey =  await this.ussdService.create(xmlData);
     return responsey
   }
 
